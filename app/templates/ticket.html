@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Support System</title>
+    <style>
+        body {
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;;
+            background-image: url('train.png');
+            background-repeat: no-repeat;
+            height: 100vh;
+            width: 100%;
+            background-size: cover;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: transparent;
+            border-radius: 8px;
+            box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 20%;
+            padding: 10px 20px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 240px;
+        }
+
+        button:hover {
+            background-color: #4cae4c;
+        }
+
+        #ticketsList {
+            margin-top: 20px;
+        }
+
+        .ticket {
+            background: #e7f3e7;
+            border-left: 5px solid #5cb85c;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .ticket h3 {
+            margin: 0;
+            color: #333;
+        }
+
+        .ticket p {
+            margin: 5px 0 0;
+            color: #666;
+        }
+
+        .ticket-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background-color: #ffeb3b;
+            border-radius: 4px;
+            color: #333;
+        }
+
+        .ticket-status.solved {
+            background-color: #5cb85c;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ticket support System</h1>
+        
+        <form id="ticketForm">
+            <label for="username">Name:</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="issue">Issue:</label>
+            <textarea id="issue" name="issue" required></textarea>
+            
+            <button type="submit">Submit Ticket</button>
+        </form>
+
+        <h2>Submitted Tickets</h2>
+        <div id="ticketsList"></div>
+    </div>
+    
+    <script>
+        document.getElementById('ticketForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Get form values
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const issue = document.getElementById('issue').value;
+            
+            // Create a new ticket element
+            const ticket = document.createElement('div');
+            ticket.className = 'ticket';
+            
+            ticket.innerHTML = `
+                <h3>${username}</h3>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Issue:</strong> ${issue}</p>
+                <p><span class="ticket-status"><strong>Status:</strong> processing</span></p>
+            `;
+            
+            // Append the ticket to the tickets list
+            document.getElementById('ticketsList').appendChild(ticket);
+            
+            // Automatically change the status to 'Closed' after 5 seconds
+            setTimeout(function() {
+                const statusElement = ticket.querySelector('.ticket-status');
+                statusElement.textContent = 'solved';
+                statusElement.classList.add('solved');
+            }, 6000);
+            
+            // Clear the form
+            document.getElementById('ticketForm').reset();
+        });
+    </script>
+</body>
+</html>
+
